@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InstagramViewController: UIViewController, UIScrollViewDelegate {
+class PhotoViewController: UIViewController, UIScrollViewDelegate {
     
     //imagecontainer is the image storing the previously clicked img
     var imageContainer: UIImage!

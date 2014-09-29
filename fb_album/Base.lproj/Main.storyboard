@@ -83,10 +83,10 @@
             </objects>
             <point key="canvasLocation" x="128" y="225.5"/>
         </scene>
-        <!--Instagram View Controller-->
+        <!--Photo View Controller-->
         <scene sceneID="bRO-yO-6ig">
             <objects>
-                <viewController id="V91-iP-pUx" customClass="InstagramViewController" customModule="fb_album" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="V91-iP-pUx" customClass="PhotoViewController" customModule="fb_album" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" alpha="0.5" contentMode="scaleToFill" id="OZe-gI-Gfw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

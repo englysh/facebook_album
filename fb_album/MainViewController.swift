@@ -210,7 +210,7 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
-        var destinationVC = segue.destinationViewController as InstagramViewController
+        var destinationVC = segue.destinationViewController as PhotoViewController
         
         
         destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
@@ -221,6 +221,9 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
         //putting the clicked img from this view controller to the next
         destinationVC.imageContainer = self.tempImage.image
         destinationVC.ratio = self.imgRatio
+        
+        
+        
         
     }
     
