@@ -1,6 +1,6 @@
 facebook_album
 ==============
-Took about 25 hrs <br>
+Took about 30 hrs <br>
 
 <img src= "https://github.com/englysh/facebook_album/blob/master/fb-album.gif">
 
