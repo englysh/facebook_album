@@ -16,7 +16,8 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     var contentOffset: CGFloat!
     var ratio: Float!
     var breakpoint: CGFloat!
-    
+    var originalFeedImgFrame: CGRect!
+    var targetContentOffset: CGPoint!
     
     @IBOutlet weak var donBtnImg: UIImageView!
     @IBOutlet weak var doneBtn: UIButton!
@@ -50,7 +51,16 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func onDoneBtn(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.imageView.frame = self.originalFeedImgFrame
+            self.view.backgroundColor = UIColor(white: 0, alpha: 0)
+            self.imgController.alpha = 0
+            self.donBtnImg.alpha = 0
+            
+            }) { (finished:Bool) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+
+        }
     }
     
     
@@ -66,17 +76,15 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         
         self.contentOffset = scrollView.contentOffset.y
         
-        var ty = convertValue(Float(self.contentOffset), r1Min: 0, r1Max: 568/4, r2Min: 1, r2Max: 0)
+        var ty = convertValue(Float(self.contentOffset), r1Min: 0, r1Max: 568/3, r2Min: 1, r2Max: 0)
         
         //negative y translation
-        var Nty = convertValue(Float(self.contentOffset), r1Min: 0, r1Max: -568/4, r2Min: 1, r2Max: 0)
-        
+        var Nty = convertValue(Float(self.contentOffset), r1Min: 0, r1Max: -568/3, r2Min:1, r2Max: 0)
         
         println("content offset:\(contentOffset)")
         
         if (contentOffset > 0){
             self.view.backgroundColor = UIColor(white: 0, alpha: CGFloat(ty))
-            
         } else if (contentOffset < 0){
             self.view.backgroundColor = UIColor(white: 0, alpha: CGFloat(Nty))
         }
@@ -86,7 +94,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
         println("begin dragging")
         
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.imgController.alpha = 0
             self.donBtnImg.alpha = 0
         })
@@ -99,13 +107,23 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
             
             // This method is called right as the user lifts their finger
             
-            self.breakpoint = 50.0
+            self.contentOffset = scrollView.contentOffset.y
+            self.breakpoint = 60.0
             
-            // if scrolled up pass 50px
+            // if scrolled up pass 60px
             if (contentOffset > breakpoint){
+                
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
+        
+                 
+                    self.view.backgroundColor = UIColor(white: 0, alpha: 0)
+                    self.imgController.alpha = 0
+                    self.donBtnImg.alpha = 0
+                    self.imageView.frame = self.originalFeedImgFrame
                     
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    }, completion: { (finished:Bool) -> Void in
+                        self.dismissViewControllerAnimated(true, completion: nil)
+
                 })
                 
             } else if (contentOffset < breakpoint && contentOffset > -breakpoint ){
@@ -118,29 +136,41 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
                 
             } else if (-breakpoint > contentOffset) {
                 
+                
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                })
+                    self.imageView.frame = self.originalFeedImgFrame
+                    self.view.backgroundColor = UIColor(white: 0, alpha: 0)
+                    self.imgController.alpha = 0
+                    self.donBtnImg.alpha = 0
 
-                
+                    }, completion: { (finished:Bool) -> Void in
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                })
             }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
         // This method is called when the scrollview finally stops scrolling.
+        self.breakpoint = 60.0
         
-        self.breakpoint = 50.0
-        
-        // if scrolled up pass 50px
+        // if scrolled up pass 60px
         if (contentOffset > breakpoint){
+            
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.imageView.frame = self.originalFeedImgFrame
+                self.view.backgroundColor = UIColor(white: 0, alpha: 0)
+                self.imgController.alpha = 0
+                self.donBtnImg.alpha = 0
+
+                }, completion: { (finished:Bool) -> Void in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    
             })
             
-        } else if (contentOffset < breakpoint && contentOffset > -breakpoint){
-
+        } else if (contentOffset < breakpoint && contentOffset > -breakpoint ){
+            
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 
                 self.imgController.alpha = 1
@@ -150,15 +180,22 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         } else if (-breakpoint > contentOffset) {
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.imageView.frame = self.originalFeedImgFrame
+                self.view.backgroundColor = UIColor(white: 0, alpha: 0)
+                self.imgController.alpha = 0
+                self.donBtnImg.alpha = 0
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                }, completion: { (finished:Bool) -> Void in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    
             })
             
-            
         }
-
     }
     
+    func viewForZoomingInScrollView(scrollView: UIScrollView!) -> UIView! {
+        return imageView
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

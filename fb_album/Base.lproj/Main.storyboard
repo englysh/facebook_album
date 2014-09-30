@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -60,6 +60,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view alpha="0.0" contentMode="scaleToFill" id="xa3-5d-37S" userLabel="faking the black">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="2915"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -67,6 +72,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="2915"/>
                     <connections>
+                        <outlet property="blackBG" destination="xa3-5d-37S" id="wWN-4K-Maq"/>
                         <outlet property="insta1" destination="Snx-KS-F5q" id="om7-Th-NTg"/>
                         <outlet property="insta2" destination="1vc-gR-2dG" id="2Fb-G6-O4d"/>
                         <outlet property="profileFeedView" destination="o1v-fF-YCq" id="YYO-jH-720"/>
@@ -76,12 +82,12 @@
                         <outlet property="wedding3" destination="yOo-GR-83N" id="vRk-Ul-9kO"/>
                         <outlet property="wedding4" destination="Zn7-tQ-hGF" id="INZ-LG-62u"/>
                         <outlet property="wedding5" destination="nrq-CR-Ca8" id="ELn-7R-zAb"/>
-                        <segue destination="V91-iP-pUx" kind="custom" identifier="viewPhotoSeq" id="HTG-nu-F2b"/>
+                        <segue destination="V91-iP-pUx" kind="modal" identifier="viewPhotoSeq" id="HTG-nu-F2b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="128" y="225.5"/>
+            <point key="canvasLocation" x="19" y="202.5"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="bRO-yO-6ig">
@@ -91,7 +97,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="30V-MC-Jon">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="2" id="30V-MC-Jon">
                                 <rect key="frame" x="20" y="20" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -133,37 +139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0OB-4p-VPD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="510" y="-948"/>
-        </scene>
-        <!--Test View Controller-->
-        <scene sceneID="Dzy-AF-gwl">
-            <objects>
-                <viewController id="mkg-3b-R4G" customClass="TestViewController" customModule="fb_album" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="seK-KR-PTd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Ui6-Hn-DuA">
-                                <rect key="frame" x="53" y="141" width="195" height="286"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wedding2" id="SeY-2b-xzQ">
-                                        <rect key="frame" x="-23" y="-8" width="277" height="372"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
-                                </subviews>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="theScrollView" destination="Ui6-Hn-DuA" id="h4h-0Y-6dB"/>
-                        <outlet property="wedding" destination="SeY-2b-xzQ" id="UBy-Cf-nzU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="N5r-H6-617" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="881" y="-674"/>
+            <point key="canvasLocation" x="516" y="-971"/>
         </scene>
     </scenes>
     <resources>
@@ -183,9 +159,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4">
-            <size key="portraitSize" width="320" height="568"/>
-            <size key="landscapeSize" width="568" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

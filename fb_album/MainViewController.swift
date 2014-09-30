@@ -11,9 +11,7 @@ import UIKit
 class MainViewController: UIViewController, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, UIScrollViewDelegate  {
     
     var contentOffset: CGPoint!
-    var oScrollP: CGPoint!
-    var scrollTranslation: CGFloat!
-    
+  
     @IBOutlet weak var profileFeedView: UIImageView!
     @IBOutlet weak var profileScrollView: UIScrollView!
     
@@ -25,9 +23,11 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
     @IBOutlet weak var wedding4: UIImageView!
     @IBOutlet weak var wedding5: UIImageView!
     
+    @IBOutlet weak var blackBG: UIView!
     var originalW: Float!
     var originalH: Float!
     var imgRatio: Float!
+    var feedImgFrame: CGRect!
     
     
     //var clickedOnImg: UIImageView!
@@ -87,17 +87,12 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
     func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
         println("begin dragging")
         self.contentOffset = profileScrollView.contentOffset
-        oScrollP = contentOffset
-        //println(self.oScrollP)
         
     }
     func scrollViewDidScroll(scrollView: UIScrollView!) {
         // This method is called as the user scrolls
         self.contentOffset = profileScrollView.contentOffset
         println("begin scrolling")
-        
-        self.scrollTranslation = self.contentOffset.y - self.oScrollP.y
-        
         
         //println(scrollTranslation)
         //println(self.contentOffset)
@@ -167,9 +162,6 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
             self.originalH = 640.0
         }
 
-
-
-        //self.performSegueWithIdentifier("viewPhotoSeq", sender: self)
         var window = UIApplication.sharedApplication().keyWindow
         
         //creating a temp img to duplicate the original img
@@ -180,9 +172,9 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
         window.addSubview(tempImage)
 
         //getting the postion of the imgs desired absolute position
-        var frame = window.convertRect(self.clickedOnImg.frame, fromView: self.profileScrollView)
+        self.feedImgFrame = window.convertRect(self.clickedOnImg.frame, fromView: self.profileScrollView)
         
-        tempImage.frame = frame
+        tempImage.frame = self.feedImgFrame
         //var ratio = tempImage.frame.size.width / tempImage.frame.size.height
 
         self.imgRatio = originalW/originalH
@@ -192,17 +184,22 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
         
         self.tempImage.contentMode = .ScaleAspectFill
 
-        self.performSegueWithIdentifier("viewPhotoSeq", sender: self)
 
         UIView.animateWithDuration(0.3, animations:
             
             { () -> Void in
                 self.tempImage.frame = CGRect (x: 0, y: newY, width:320, height: newH)
                 self.clickedOnImg.alpha = 0
+                self.blackBG.alpha = 1
 
             })
             { (finished:Bool) -> Void in
-                self.tempImage.alpha = 0
+                self.tempImage.removeFromSuperview()
+
+                self.blackBG.alpha = 0
+                self.performSegueWithIdentifier("viewPhotoSeq", sender: self)
+//***keep***    self.performSegueWithIdentifier("photoPanSeq", sender: self)
+
         }
     }
     
@@ -210,8 +207,9 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
-        var destinationVC = segue.destinationViewController as PhotoViewController
-        
+    var destinationVC = segue.destinationViewController as PhotoViewController
+ //*** keep ***           var destinationVC = segue.destinationViewController as PhotopanViewController
+ 
         
         destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
         destinationVC.transitioningDelegate = self
@@ -221,7 +219,7 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
         //putting the clicked img from this view controller to the next
         destinationVC.imageContainer = self.tempImage.image
         destinationVC.ratio = self.imgRatio
-        
+        destinationVC.originalFeedImgFrame = self.feedImgFrame
         
         
         
@@ -254,9 +252,9 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
         
         if (isPresenting) {
             containerView.addSubview(toViewController.view)
-            toViewController.view.alpha = 0
+            toViewController.view.alpha = 1
+            
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                toViewController.view.alpha = 1
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
             }
@@ -266,22 +264,17 @@ class MainViewController: UIViewController, UIViewControllerTransitioningDelegat
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
                     fromViewController.view.removeFromSuperview()
-
-                    self.tempImage.alpha = 1
+                    
+                    self.tempImage.alpha = 0
                     self.clickedOnImg.alpha = 1
-
+                    self.tempImage.removeFromSuperview()
+                    self.blackBG.alpha = 0
+                    
                     UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    
-                    var frame = self.view.convertRect(self.clickedOnImg.frame, fromView: self.profileScrollView)
-                    
-                        self.tempImage.frame = frame
-
                         }, completion: { (finished:Bool) -> Void in
-                            self.tempImage.removeFromSuperview()
-
-
-                            
+                        //
                     })
+        
             }
         }
     }
